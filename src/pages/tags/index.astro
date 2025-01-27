@@ -1,0 +1,40 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const tags = posts.reduce((acc, post) => {
+  post.data.tags.forEach(tag => {
+    acc[tag] = (acc[tag] || 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
+const sortedTags = Object.entries(tags)
+  .sort(([,a], [,b]) => b - a)
+  .map(([tag, count]) => ({ tag, count }));
+---
+
+<Layout title="Etiquetas - DevFlow">
+  <div class="space-y-2 mb-8">
+    <div class="breadcrumb">
+      <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400">Inicio</a>
+      <span class="breadcrumb-separator">></span>
+      <span>Etiquetas</span>
+    </div>
+    <h1 class="text-3xl font-mono">Etiquetas</h1>
+    <p class="font-mono italic text-surface-500 dark:text-surface-400">
+      Todas las etiquetas usadas en los artículos.
+    </p>
+  </div>
+
+  <div class="flex flex-wrap gap-4">
+    {sortedTags.map(({ tag, count }) => (
+      <a href={`/tags/${tag}`} class="tag">
+        #{tag}
+        <span class="tag-count">({count})</span>
+      </a>
+    ))}
+  </div>
+</Layout>
+
