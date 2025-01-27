@@ -1,0 +1,65 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  publishDate: Date;
+  slug: string;
+  category: string;
+}
+
+const { title, description, publishDate, slug, category } = Astro.props;
+const formattedDate = new Date(publishDate).toLocaleDateString('es-ES', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class="group py-8 first:pt-0 border-b border-surface-200 dark:border-surface-700/50 last:border-0 animate-slide-up">
+  <a 
+    href={`/blog/${slug}`} 
+    class="block space-y-4 transition-all duration-300 hover:-translate-y-1"
+  >
+    <div class="flex flex-wrap items-center gap-3 text-sm">
+      <span 
+        class="px-3 py-1 text-xs font-medium rounded-full bg-primary-100/50 
+               dark:bg-primary-500/10 text-primary-700 dark:text-primary-300
+               transition-colors duration-300 group-hover:bg-primary-200/50 
+               dark:group-hover:bg-primary-500/20"
+      >
+        {category}
+      </span>
+      <time 
+        class="text-surface-500 dark:text-surface-400"
+        datetime={publishDate.toISOString()}
+      >
+        {formattedDate}
+      </time>
+    </div>
+
+    <h2 
+      class="text-2xl font-bold text-surface-900 dark:text-surface-50 
+             group-hover:text-primary-600 dark:group-hover:text-primary-400 
+             transition-colors duration-300"
+    >
+      {title}
+    </h2>
+
+    <p class="text-surface-600 dark:text-surface-300 leading-relaxed">
+      {description}
+    </p>
+
+    <div class="inline-flex items-center text-primary-600 dark:text-primary-400 font-medium pt-2">
+      <span class="text-sm">Leer más</span>
+      <svg 
+        class="w-4 h-4 ml-2 transform transition-transform duration-300 group-hover:translate-x-2" 
+        fill="none" 
+        viewBox="0 0 24 24" 
+        stroke="currentColor"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+      </svg>
+    </div>
+  </a>
+</article>
+

@@ -1,0 +1,102 @@
+---
+const currentYear = new Date().getFullYear()
+
+const emojis = ['🍫', '☕', '🌟', '✨', '🎨', '📚', '🎭', '🎪']
+const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)]
+---
+
+<footer class="border-t dark:border-chocolate-800 relative overflow-hidden">
+  <div class="container mx-auto px-4 py-12">
+    <div class="relative z-10">
+      <!-- Animación de onda -->
+      <div class="absolute inset-0 z-0 opacity-10">
+        <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path 
+            d="M0,50 C30,60 70,40 100,50 L100,100 L0,100 Z" 
+            class="fill-current text-chocolate-500 motion-safe:animate-float"
+          />
+        </svg>
+      </div>
+
+      <!-- Contenido principal -->
+      <div class="text-center relative z-10 space-y-8">
+        <div class="inline-block motion-safe:animate-float">
+          <span class="text-4xl" aria-hidden="true">{randomEmoji}</span>
+        </div>
+        
+        <div class="space-y-4">
+          <p class="text-lg font-medium dark:text-primary-100">
+            Creado con código y creatividad
+          </p>
+          <p class="text-sm text-gray-600 dark:text-primary-200/70 max-w-md mx-auto">
+            Este blog está construido con Astro y un toque de imaginación. 
+            Sin cookies, sin rastreo, solo contenido puro.
+          </p>
+        </div>
+
+        <!-- Enlaces rápidos en disposición horizontal -->
+        <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm">
+          <a 
+            href="/rss.xml" 
+            class="text-gray-600 hover:text-chocolate-600 dark:text-primary-200 
+                   dark:hover:text-primary-100 transition-colors duration-300 
+                   hover:-translate-y-1 inline-flex items-center gap-1"
+          >
+            <span class="sr-only">RSS</span>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16M6 19a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/>
+            </svg>
+          </a>
+          <span class="text-gray-300 dark:text-chocolate-700">•</span>
+          <a 
+            href="https://lalo.lol/gh" 
+            class="text-gray-600 hover:text-chocolate-600 dark:text-primary-200 
+                   dark:hover:text-primary-100 transition-colors duration-300 
+                   hover:-translate-y-1 inline-flex items-center gap-1"
+          >
+            <span class="sr-only">GitHub</span>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.137 20.167 22 16.42 22 12c0-5.523-4.477-10-10-10z"/>
+            </svg>
+          </a>
+          <span class="text-gray-300 dark:text-chocolate-700">•</span>
+          <a 
+            href="https://lalo.lol/x" 
+            class="text-gray-600 hover:text-chocolate-600 dark:text-primary-200 
+                   dark:hover:text-primary-100 transition-colors duration-300 
+                   hover:-translate-y-1 inline-flex items-center gap-1"
+          >
+            <span class="sr-only">Twitter</span>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Año con estilo especial -->
+      <div class="mt-8 text-center">
+        <span class="inline-flex items-center gap-1 text-sm text-gray-500 dark:text-primary-200/60">
+          <span class="sr-only">Copyright</span>
+          <svg 
+            class="w-4 h-4 motion-safe:animate-spin-slow" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor"
+          >
+            <circle cx="12" cy="12" r="10" class="opacity-20"/>
+            <path class="opacity-75" d="M12 2a10 10 0 1 0 10 10"/>
+          </svg>
+          <span>{currentYear}</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Elementos decorativos -->
+  <div class="absolute bottom-0 left-0 w-24 h-24 transform -translate-x-1/2 translate-y-1/2
+              bg-gradient-to-br from-chocolate-500/20 to-transparent rounded-full blur-2xl"/>
+  <div class="absolute top-0 right-0 w-32 h-32 transform translate-x-1/2 -translate-y-1/2
+              bg-gradient-to-bl from-chocolate-500/20 to-transparent rounded-full blur-2xl"/>
+</footer>
+
