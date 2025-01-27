@@ -1,38 +1,51 @@
 ---
-export interface Props {
+import Header from '../components/Header.astro';
+import '../styles/global.css';
+
+interface Props {
   title: string;
+  description?: string;
 }
 
-const { title } = Astro.props;
+const { 
+  title, 
+  description = "Un blog sobre desarrollo web y tecnología"
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <style is:inline>
+      /* Pre-renderizar ambos iconos pero ocultar uno basado en el tema */
+      .theme-toggle .sun { display: none; }
+      .theme-toggle .moon { display: block; }
+      
+      :root.dark .theme-toggle .sun { display: block; }
+      :root.dark .theme-toggle .moon { display: none; }
+    </style>
+    <script is:inline>
+      (function() {
+        const savedTheme = localStorage.getItem('theme');
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        const theme = savedTheme || systemTheme;
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+      })();
+    </script>
     <title>{title}</title>
+    <meta name="description" content={description} />
   </head>
-  <body class="bg-background text-text-primary min-h-screen">
-    <slot />
+  <body>
+    <div class="max-w-3xl mx-auto px-4 py-16">
+      <Header />
+      <main class="mt-16">
+        <slot />
+      </main>
+    </div>
   </body>
 </html>
 
-<style is:global>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-
-  html {
-    font-family: 'Inter', system-ui, sans-serif;
-  }
-
-  code {
-    font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-      Bitstream Vera Sans Mono, Courier New, monospace;
-  }
-
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-</style>

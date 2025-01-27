@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-white dark:bg-surface-950 text-surface-900 dark:text-white font-sans;
+  }
+
+  .prose {
+    @apply max-w-none;
+  }
+
+  .prose pre {
+    @apply bg-surface-50 dark:bg-surface-900 border border-border dark:border-border-dark;
+  }
+}
+
+@layer components {
+  .tag {
+    @apply inline-flex items-center font-mono text-sm border-b border-dotted border-surface-900/50 dark:border-white/50 hover:border-solid transition-all;
+  }
+
+  .tag-count {
+    @apply ml-1 text-surface-500 dark:text-surface-400;
+  }
+
+  .breadcrumb {
+    @apply font-mono text-sm text-surface-500 dark:text-surface-400;
+  }
+
+  .breadcrumb-separator {
+    @apply mx-2 text-surface-400 dark:text-surface-600;
+  }
+
+  .post-date {
+    @apply font-mono text-sm text-surface-500 dark:text-surface-400;
+  }
+
+  .post-title {
+    @apply text-lg font-mono hover:text-blue-600 dark:hover:text-blue-400;
+  }
+
+  .post-excerpt {
+    @apply mt-2 text-surface-500 dark:text-surface-400;
+  }
+}
