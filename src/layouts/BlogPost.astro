@@ -1,0 +1,69 @@
+---
+import Layout from './Layout.astro';
+import Comments from '../components/Comments';
+import ShareButtons from '../components/ShareButtons';
+import RelatedPosts from '../components/RelatedPosts.astro';
+import { type CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout 
+  title={post.data.title}
+  description={post.data.description}
+>
+<div class="breadcrumb mb-10">
+  <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400">Inicio</a>
+  <span class="breadcrumb-separator">></span>
+  <a href="/blog" class="hover:text-blue-600 dark:hover:text-blue-400">Artículos</a>
+  <span class="breadcrumb-separator">></span>
+  <span>{post.data.title}</span>
+</div>
+  <article class="max-w-2xl mx-auto motion-safe:animate-fadeInUp">
+    <header class="text-center mb-12 space-y-6">
+      <div class="space-y-4 motion-safe:animate-fadeInDown">
+        <div class="flex flex-wrap items-center justify-center gap-4 text-sm">
+          <span class="px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-900 
+                     text-primary-600 dark:text-primary-300">
+            {post.data.category}
+          </span>
+          <time 
+            class="text-gray-500 dark:text-gray-400"
+            datetime={post.data.publishDate.toISOString()}
+          >
+            {new Date(post.data.publishDate).toLocaleDateString('es-ES', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </time>
+        </div>
+
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white leading-tight">
+          {post.data.title}
+        </h1>
+      </div>
+    </header>
+
+    <div class="prose dark:prose-invert max-w-none 
+                motion-safe:animate-fadeIn motion-safe:animation-delay-200">
+      <Content />
+    </div>
+
+    <footer class="mt-16 pt-8 border-t dark:border-gray-800 space-y-8
+                   motion-safe:animate-fadeIn motion-safe:animation-delay-300">
+      <Comments client:visible />
+      <RelatedPosts 
+        currentPost={post}
+        category={post.data.category}
+      />
+    </footer>
+  </article>
+  <ShareButtons client:load />
+</Layout>
+

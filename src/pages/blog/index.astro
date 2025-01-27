@@ -1,0 +1,45 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const sortedPosts = posts
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+---
+
+<Layout title="Blog - DevFlow">
+  <div class="space-y-2 mb-8">
+    <div class="breadcrumb">
+      <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400">Inicio</a>
+      <span class="breadcrumb-separator">></span>
+      <span>Artículos </span>
+    </div>
+    <h1 class="text-3xl font-mono">Artículos</h1>
+    <p class="font-mono italic text-surface-500 dark:text-surface-400">
+      Todos los artículos que he publicado.
+    </p>
+  </div>
+
+  <div class="space-y-12">
+    {sortedPosts.map((post) => (
+      <article>
+        <time class="post-date" datetime={post.data.publishDate.toISOString()}>
+          {new Date(post.data.publishDate).toLocaleDateString('es-ES', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+          })}
+        </time>
+        <h2 class="mt-1">
+          <a href={`/blog/${post.slug}`} class="post-title">
+            {post.data.title}
+          </a>
+        </h2>
+        <p class="post-excerpt">
+          {post.data.description}
+        </p>
+      </article>
+    ))}
+  </div>
+</Layout>
+
