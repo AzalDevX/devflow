@@ -1,41 +1,154 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
 ---
+<Layout title="DevFlow - Desarrollo creativo">
+  <!-- Hero Section -->
+  <section class="relative min-h-[90vh] flex items-center">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="relative">
+          <div class="absolute -top-20 left-0 w-64 h-64 bg-primary-100 dark:bg-primary-900/20 rounded-full 
+                      filter blur-3xl opacity-60 animate-pulse"></div>
+          <div class="absolute -top-10 right-0 w-72 h-72 bg-accent-100 dark:bg-accent-900/20 rounded-full 
+                      filter blur-3xl opacity-60 animate-pulse delay-1000"></div>
+          
+          <div class="relative z-10 text-center space-y-8">
+            <h1 class="text-7xl sm:text-8xl font-bold tracking-tight">
+              <span class="text-surface-900 dark:text-white">Dev</span>
+              <span class="text-accent-600 dark:text-accent-400">Flow</span>
+            </h1>
+            
+            <p class="text-xl sm:text-2xl text-surface-600 dark:text-surface-300 max-w-2xl mx-auto leading-relaxed">
+              Explorando el desarrollo web moderno a través de artículos, tutoriales y recursos cuidadosamente seleccionados.
+            </p>
 
-<Layout title="Astro + TailwindCSS Template">
-  <main class="max-w-4xl mx-auto p-6 pt-16">
-    <h1 class="text-text-primary text-5xl font-extrabold text-center mb-8">Bienvenido a <strong class="text-purple-300">Astro</strong> + <strong class="text-teal-300">TailwindCSS</strong></h1>
-    <p class="text-center text-xl mb-12">
-      ¡Empieza con <code class="bg-code-background border-1 border-code-border px-2 py-1 rounded-md">src/pages</code> para codear!<br />
-      <strong class="text-accent-primary">Objetivo:</strong> Facilitar la creación de proyectos combinados con ambas tecnologías.
-    </p>
-    <ul role="list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <Card
-        href="https://astro.build/"
-        title="Inicia tu Proyecto"
-        body="Comienza a desarrollar tu idea usando este template como base. ¡Explora las posibilidades!"
-      />
-      <Card
-        href="https://docs.astro.build/en/getting-started/"
-        title="Documentación"
-        body="Aprende a integrar nuevas funcionalidades, y consulta las guías para personalizar el template."
-      />
-      <Card
-        href="https://tailwindcss.com/docs/guides/astro"
-        title="Aprende Astro y TailwindCSS"
-        body="Descubre cómo aprovechar al máximo Astro y TailwindCSS en tus proyectos."
-      />
-      <Card
-        href="https://github.com/azaldevx/astro-template"
-        title="Contribuir al Proyecto"
-        body="¿Tienes ideas o mejoras? Colabora en el desarrollo de este template en GitHub."
-      />
-    </ul>
-  </main>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center pt-8">
+              <a 
+                href="/blog" 
+                class="inline-flex items-center justify-center px-8 py-4 text-lg font-medium 
+                       bg-surface-900 dark:bg-white text-white dark:text-surface-900
+                       hover:bg-surface-800 dark:hover:bg-surface-100
+                       transition-colors duration-300"
+              >
+                Explorar artículos
+              </a>
+              <a 
+                href="#featured" 
+                class="inline-flex items-center justify-center px-8 py-4 text-lg font-medium
+                       border-2 border-surface-900 dark:border-white
+                       text-surface-900 dark:text-white
+                       hover:bg-surface-50 dark:hover:bg-surface-900
+                       transition-colors duration-300"
+              >
+                Descubrir más
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <footer class="mt-12 text-center text-footer">
-    <p>Creado por <a href="https://www.linkedin.com/in/azaldev" class="text-accent-primary hover:underline">AzalDevX</a> - 
-    <a href="https://github.com/azaldevx/astro-template" class="text-accent-primary hover:underline">GitHub</a></p>
-  </footer>
+  <!-- Featured Section -->
+  <section id="featured" class="py-32 bg-surface-50 dark:bg-surface-900/50">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center space-y-4 mb-16">
+          <h2 class="text-4xl font-bold text-surface-900 dark:text-white">
+            Temas destacados
+          </h2>
+          <p class="text-surface-600 dark:text-surface-300 text-lg">
+            Explorando las diferentes facetas del desarrollo moderno
+          </p>
+        </div>
+
+        <div class="grid gap-8 md:grid-cols-2">
+          {[
+            {
+              title: 'Arquitectura Web',
+              description: 'Diseñando sistemas escalables y mantenibles para el futuro del desarrollo web.',
+              number: '01'
+            },
+            {
+              title: 'Performance',
+              description: 'Optimizando aplicaciones web para una experiencia de usuario excepcional.',
+              number: '02'
+            },
+            {
+              title: 'Accesibilidad',
+              description: 'Creando experiencias web inclusivas y accesibles para todos los usuarios.',
+              number: '03'
+            },
+            {
+              title: 'DevOps',
+              description: 'Implementando prácticas modernas de desarrollo y despliegue continuo.',
+              number: '04'
+            }
+          ].map(topic => (
+            <div class="group relative">
+              <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-100 to-accent-100 
+                          dark:from-primary-900 dark:to-accent-900 opacity-0 group-hover:opacity-100 
+                          transition duration-500 rounded-lg blur"></div>
+              <div class="relative p-8 bg-white dark:bg-surface-800 rounded-lg">
+                <div class="flex items-start gap-6">
+                  <span class="text-5xl font-light text-surface-300 dark:text-surface-600">
+                    {topic.number}
+                  </span>
+                  <div class="space-y-3">
+                    <h3 class="text-xl font-semibold text-surface-900 dark:text-white">
+                      {topic.title}
+                    </h3>
+                    <p class="text-surface-600 dark:text-surface-300">
+                      {topic.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="py-32">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="relative">
+          <div class="absolute inset-0 bg-surface-100 dark:bg-surface-800 transform skew-y-3"></div>
+          <div class="relative bg-white dark:bg-surface-900/50 p-12 md:p-16">
+            <div class="text-center space-y-6 max-w-2xl mx-auto">
+              <h2 class="text-3xl font-bold text-surface-900 dark:text-white">
+                Mantente actualizado
+              </h2>
+              <p class="text-surface-600 dark:text-surface-300">
+                Recibe las últimas actualizaciones y artículos directamente en tu correo.
+              </p>
+              <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                <input 
+                  type="email" 
+                  placeholder="tu@email.com" 
+                  class="flex-1 px-6 py-3 bg-surface-50 dark:bg-surface-800 
+                         border-2 border-surface-200 dark:border-surface-700
+                         focus:border-primary-500 dark:focus:border-primary-400 
+                         outline-none transition-colors"
+                />
+                <button 
+                  type="submit" 
+                  class="px-8 py-3 bg-surface-900 dark:bg-white 
+                         text-white dark:text-surface-900
+                         hover:bg-surface-800 dark:hover:bg-surface-100
+                         transition-colors duration-300"
+                >
+                  Suscribirse
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
+
