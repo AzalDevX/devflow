@@ -38,9 +38,37 @@ export default function ShareButtons() {
   };
 
   const shareToTwitter = () => {
+    // Get tags from the URL and transform them
+    const hashtags = window.location.pathname
+      .split('/')
+      .filter((segment) => segment === 'tags')[0] // Check if we're in a tag page
+      ? [window.location.pathname.split('/').pop()] // If so, get the current tag
+      : document.querySelectorAll('a[href^="/tags/"]') // Otherwise get all tags from the page
+      ? Array.from(document.querySelectorAll('a[href^="/tags/"]')).map((tag) =>
+          tag.textContent?.replace('#', '')
+        ) // Remove # from tags
+      : [];
+
+    // Transform tags: "proyecto personal" -> "ProyectoPersonal"
+    const formattedTags = hashtags
+      .map((tag) =>
+        tag
+          ?.split(' ')
+          .map(
+            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+          )
+          .join('')
+      )
+      .filter(Boolean) // Remove any undefined/null values
+      .map((tag) => `#${tag}`); // Add # prefix
+
     const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       pageTitle
-    )}&url=${encodeURIComponent(shareUrl)}`;
+    )}&url=${encodeURIComponent(shareUrl)}${
+      formattedTags.length
+        ? '&hashtags=' + formattedTags.map((tag) => tag.slice(1)).join(',')
+        : ''
+    }`;
     window.open(url, '_blank');
     showNotification('Compartiendo en Twitter...');
   };
