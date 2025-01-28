@@ -1,29 +1,37 @@
-# Astro + Tailwind CSS Starter Template
+# DevFlow Blog ✍️
 
-Este es un template minimalista para proyectos con Astro y Tailwind CSS, configurado con modo oscuro por defecto. puedes ver el ejemplo [aquí](https://astro-template.azaldev.com)
+DevFlow es un blog moderno, rápido y minimalista construido con Astro y React. Cuenta con un diseño limpio, soporte para modo oscuro, sistema de etiquetas y excelentes métricas de rendimiento.
 
-## 🚀 Características
+### ✨ Características
 
-- ⚡️ Astro para un rendimiento óptimo
-- 🎨 Tailwind CSS para estilos rápidos y flexibles
-- 🌙 Modo oscuro por defecto
-- 📱 Diseño responsive
+- 🚀 Construido con Astro para máximo rendimiento
+- ⚛️ Componentes React para funcionalidades interactivas
+- 🎨 Diseño limpio y minimalista
+- 🌓 Modo oscuro automático y manual
+- 🏷️ Sistema de etiquetas para organizar contenido
+- 🔍 Búsqueda rápida y accesible
+- 📱 Diseño totalmente responsive
+- 📊 Optimizado para SEO
+- 📰 Soporte para feed RSS
 
-## 🛠️ Uso
+### 🚀 Inicio Rápido
 
-1. Haz clic en "Use this template" para crear un nuevo repositorio con esta estructura.
-2. Clona tu nuevo repositorio.
-3. Navega al directorio del proyecto e instala las dependencias:
+```bash
+# Clonar el repositorio
+git clone https://github.com/yourusername/devflow.git
 
-   ```bash
-   npm install
+# Navegar al directorio del proyecto
+cd devflow
 
-## Contributing
+# Instalar dependencias
+npm install
 
-Si deseas contribuir a este proyecto, por favor sigue los siguientes pasos:
+# Iniciar servidor de desarrollo
+npm run dev
 
-1. Haz un fork del repositorio.
-2. Crea una nueva rama para tus cambios (`git checkout -b feature/nueva-funcionalidad`).
-3. Realiza los cambios necesarios y haz commits (`git commit -m 'Agrega nueva funcionalidad'`).
-4. Sube los cambios a tu rama (`git push origin feature/nueva-funcionalidad`).
-5. Crea un Pull Request en GitHub y describe los cambios que has hecho.
+```
+
+![Astro Badge](https://img.shields.io/badge/Astro-BC52EE?logo=astro&logoColor=fff&style=for-the-badge)
+![React Badge](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=000&style=for-the-badge)
+![TypeScript Badge](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff&style=for-the-badge)
+![Tailwind CSS Badge](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?logo=tailwindcss&logoColor=fff&style=for-the-badge)
