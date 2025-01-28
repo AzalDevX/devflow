@@ -22,7 +22,7 @@ const formattedDate = new Date(publishDate).toLocaleDateString('es-ES', {
   >
     <div class="flex flex-wrap items-center gap-3 text-sm">
       <span 
-        class="px-3 py-1 text-xs font-medium rounded-full bg-primary-100/50 
+        class="px-3 py-1 text-xs font-medium font-mono rounded-full bg-primary-100/50 
                dark:bg-primary-500/10 text-primary-700 dark:text-primary-300
                transition-colors duration-300 group-hover:bg-primary-200/50 
                dark:group-hover:bg-primary-500/20"
@@ -30,7 +30,7 @@ const formattedDate = new Date(publishDate).toLocaleDateString('es-ES', {
         {category}
       </span>
       <time 
-        class="text-surface-500 dark:text-surface-400"
+        class="text-surface-500 dark:text-surface-400 font-mono"
         datetime={publishDate.toISOString()}
       >
         {formattedDate}
@@ -38,7 +38,7 @@ const formattedDate = new Date(publishDate).toLocaleDateString('es-ES', {
     </div>
 
     <h2 
-      class="text-2xl font-bold text-surface-900 dark:text-surface-50 
+      class="text-2xl font-bold font-mono text-surface-900 dark:text-surface-50 
              group-hover:text-primary-600 dark:group-hover:text-primary-400 
              transition-colors duration-300"
     >
@@ -50,7 +50,7 @@ const formattedDate = new Date(publishDate).toLocaleDateString('es-ES', {
     </p>
 
     <div class="inline-flex items-center text-primary-600 dark:text-primary-400 font-medium pt-2">
-      <span class="text-sm">Leer más</span>
+      <span class="text-sm font-mono">Leer más</span>
       <svg 
         class="w-4 h-4 ml-2 transform transition-transform duration-300 group-hover:translate-x-2" 
         fill="none" 
