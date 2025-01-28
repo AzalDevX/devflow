@@ -1,0 +1,183 @@
+---
+title: 'Los errores más comunes en JavaScript (y cómo evitarlos) 🐛'
+description: 'Desde promesas mal manejadas hasta bugs difíciles de depurar, descubre cómo solucionar los problemas más frecuentes.'
+publishDate: 2025-01-15
+image: '/placeholder.svg?height=630&width=1200'
+category: 'JavaScript'
+tags: ['JavaScript', 'Errores', 'Debugging', 'Buenas Prácticas']
+draft: false
+---
+
+JavaScript es un lenguaje poderoso y flexible, pero su naturaleza dinámica puede dar lugar a errores difíciles de detectar. Aquí te mostramos los fallos más comunes y cómo evitarlos para escribir un código más limpio y confiable. 🚀
+
+---
+
+## 1. **Olvidar declarar variables (uso implícito de globales)** 🧩
+
+Cuando olvidas declarar una variable con `let`, `const` o `var`, esta se convierte en una variable global automáticamente, lo que puede causar comportamientos inesperados:
+
+```javascript
+function calculateSum(a, b) {
+  sum = a + b; // ¡Error! `sum` ahora es global.
+  return sum;
+}
+```
+
+**Cómo evitarlo:** Usa el modo estricto (`"use strict"`) para asegurarte de declarar todas las variables correctamente:
+
+```javascript
+'use strict';
+function calculateSum(a, b) {
+  let sum = a + b; // Correcto ✅
+  return sum;
+}
+```
+
+---
+
+## 2. **Comparaciones con `==` en lugar de `===`** 🤔
+
+El operador `==` realiza conversión de tipos automática, lo que puede generar resultados inesperados:
+
+```javascript
+console.log(0 == '0'); // true 😱
+console.log(false == ''); // true 😱
+```
+
+**Cómo evitarlo:** Usa siempre `===` para comparar valores, ya que también verifica el tipo:
+
+```javascript
+console.log(0 === '0'); // false ✅
+console.log(false === ''); // false ✅
+```
+
+---
+
+## 3. **Mal manejo de Promesas** ⏳
+
+Un error común es no manejar los errores al trabajar con promesas:
+
+```javascript
+fetch('https://api.example.com/data')
+  .then((response) => response.json())
+  .then((data) => console.log(data)); // ¿Y si falla la petición? 😬
+```
+
+**Cómo evitarlo:** Siempre encadena un bloque `.catch` o utiliza `try...catch` con `async/await`:
+
+```javascript
+fetch('https://api.example.com/data')
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  .catch((error) => console.error('Error al obtener datos:', error)); // Manejo de errores ✅
+
+// O con async/await
+async function fetchData() {
+  try {
+    const response = await fetch('https://api.example.com/data');
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error('Error al obtener datos:', error); // Manejo de errores ✅
+  }
+}
+```
+
+---
+
+## 4. **Acceso a propiedades de `undefined` o `null`** 🔍
+
+Este error ocurre cuando intentas acceder a propiedades de variables que no están definidas:
+
+```javascript
+let user = null;
+console.log(user.name); // TypeError: Cannot read property 'name' of null
+```
+
+**Cómo evitarlo:** Utiliza el encadenamiento opcional (`?.`) y operadores de coalescencia nula (`??`):
+
+```javascript
+let user = null;
+console.log(user?.name); // undefined ✅
+
+let username = user?.name ?? 'Invitado';
+console.log(username); // "Invitado" ✅
+```
+
+---
+
+## 5. **Referencias incorrectas dentro de funciones anidadas** 🔗
+
+El contexto de `this` puede perderse fácilmente dentro de funciones anidadas o callbacks:
+
+```javascript
+const person = {
+  name: 'Gonzalo',
+  greet: function () {
+    setTimeout(function () {
+      console.log(`Hola, soy ${this.name}`); // `this` no apunta a `person`
+    }, 1000);
+  },
+};
+
+person.greet(); // Hola, soy undefined
+```
+
+**Cómo evitarlo:** Usa funciones flecha para mantener el contexto de `this`:
+
+```javascript
+const person = {
+  name: 'Gonzalo',
+  greet: function () {
+    setTimeout(() => {
+      console.log(`Hola, soy ${this.name}`); // Correcto ✅
+    }, 1000);
+  },
+};
+
+person.greet(); // Hola, soy Gonzalo ✅
+```
+
+---
+
+## 6. **Sobrescribir métodos nativos por accidente** 🛑
+
+Sobrescribir métodos como `Array.prototype.map` puede causar problemas graves en tu aplicación:
+
+```javascript
+Array.prototype.map = function () {
+  return 'Oops'; // Error: has roto todos los `.map` del proyecto.
+};
+```
+
+**Cómo evitarlo:** No modifiques los prototipos nativos a menos que sea absolutamente necesario.
+
+---
+
+## 7. **Falta de desestructuración y valores por defecto** 🧩
+
+Olvidar desestructurar objetos o proporcionar valores predeterminados puede hacer tu código más propenso a errores:
+
+```javascript
+function greet(user) {
+  console.log(`Hola, ${user.name}`); // ¿Y si `user` es `undefined`?
+}
+
+greet(); // TypeError
+```
+
+**Cómo evitarlo:** Usa la desestructuración con valores predeterminados:
+
+```javascript
+function greet({ name = 'Invitado' } = {}) {
+  console.log(`Hola, ${name}`); // Correcto ✅
+}
+
+greet(); // Hola, Invitado ✅
+```
+
+---
+
+## Conclusión 📝
+
+Identificar y evitar estos errores comunes te ayudará a escribir código más limpio, legible y eficiente. JavaScript puede ser un lenguaje complejo, pero con buenas prácticas y atención al detalle, puedes minimizar los bugs y ahorrar tiempo en depuración. 💪
