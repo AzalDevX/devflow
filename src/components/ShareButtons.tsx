@@ -38,45 +38,22 @@ export default function ShareButtons() {
   };
 
   const shareToTwitter = () => {
-    // Get tags from the URL and transform them
-    const hashtags = window.location.pathname
-      .split('/')
-      .filter((segment) => segment === 'tags')[0] // Check if we're in a tag page
-      ? [window.location.pathname.split('/').pop()] // If so, get the current tag
-      : document.querySelectorAll('a[href^="/tags/"]') // Otherwise get all tags from the page
-      ? Array.from(document.querySelectorAll('a[href^="/tags/"]')).map((tag) =>
-          tag.textContent?.replace('#', '').trim()
-        ) // Remove # and trim spaces
-      : [];
-
-    // Transform tags: "proyecto personal" -> "#ProyectoPersonal"
-    const formattedTags = hashtags
-      .map((tag) =>
-        tag
-          ?.split(' ')
-          .map(
-            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-          )
-          .join('')
-      )
-      .filter(Boolean) // Remove any undefined/null values
-      .map((tag) => `#${tag.trim()}`); // Add # prefix and ensure no spaces
-
-    const tweetText = `${pageTitle}\n${shareUrl}\n\n${formattedTags.join(' ')}`;
-
-    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-      tweetText
-    )}`;
+    const tweetText = `${pageTitle}\n${shareUrl}`;
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
     window.open(url, '_blank');
     showNotification('Compartiendo en Twitter...');
   };
 
   const shareToFacebook = () => {
-    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-      shareUrl
-    )}`;
+    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
     window.open(url, '_blank');
     showNotification('Compartiendo en Facebook...');
+  };
+
+  const shareToLinkedIn = () => {
+    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+    window.open(url, '_blank');
+    showNotification('Compartiendo en LinkedIn...');
   };
 
   return (
@@ -135,6 +112,23 @@ export default function ShareButtons() {
                          transition-colors duration-200 font-mono">
                 <Facebook className="w-4 h-4" />
                 <span>Facebook</span>
+              </button>
+
+              {/* LinkedIn */}
+              <button
+                onClick={shareToLinkedIn}
+                className="flex items-center gap-3 px-4 py-3 text-sm rounded-md
+                         hover:bg-surface-100 dark:hover:bg-surface-800
+                         text-surface-900 dark:text-white
+                         transition-colors duration-200 font-mono">
+                <svg
+                  className="w-4 h-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.29c-.966 0-1.75-.784-1.75-1.75s.784-1.75 1.75-1.75 1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm13.5 11.29h-3v-5.604c0-1.344-.027-3.07-1.87-3.07-1.872 0-2.158 1.462-2.158 2.972v5.702h-3v-10h2.881v1.363h.041c.401-.761 1.379-1.563 2.837-1.563 3.034 0 3.599 2.003 3.599 4.607v5.593z" />
+                </svg>
+                <span>LinkedIn</span>
               </button>
             </div>
           </div>
