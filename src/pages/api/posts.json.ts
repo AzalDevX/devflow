@@ -1,7 +1,7 @@
-import { getCollection } from "astro:content"
+import { getCollection } from 'astro:content';
 
 export async function GET() {
-  const posts = await getCollection("blog")
+  const posts = await getCollection('blog');
   return new Response(
     JSON.stringify(
       posts.map((post) => ({
@@ -11,13 +11,12 @@ export async function GET() {
           description: post.data.description,
           publishDate: post.data.publishDate,
         },
-      })),
+      }))
     ),
     {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-    },
-  )
+    }
+  );
 }
-
