@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import BlogCard from '../../components/BlogCard.astro';
 import { getCollection } from 'astro:content';
 import { filterPublishedPosts } from '../../utils/filterPosts';
+import { calculateReadingTime } from '../../utils/readingTime';
 
 const allPosts = await getCollection('blog');
 const publishedPosts = filterPublishedPosts(allPosts);
@@ -31,6 +32,7 @@ const sortedPosts = publishedPosts
         publishDate={post.data.publishDate}
         slug={post.slug}
         category={post.data.category}
+        readingTime={calculateReadingTime(post.body)}
       />
     ))}
   </div>

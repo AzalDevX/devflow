@@ -3,6 +3,7 @@ import Layout from './Layout.astro';
 import ShareButtons from '../components/ShareButtons';
 import RelatedPosts from '../components/RelatedPosts.astro';
 import { type CollectionEntry } from 'astro:content';
+import { calculateReadingTime } from '../utils/readingTime';
 import { ArrowLeft } from 'lucide-react';
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
+const readingTime = calculateReadingTime(post.body);
 ---
 
 <Layout 
@@ -38,16 +40,17 @@ const { Content } = await post.render();
                      text-surface-900 dark:text-white">
             {post.data.category}
           </span>
-          <time 
-            class="font-mono text-surface-500 dark:text-surface-400"
-            datetime={post.data.publishDate.toISOString()}
-          >
-            {new Date(post.data.publishDate).toLocaleDateString('es-ES', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
-          </time>
+          <div class="flex items-center gap-3 font-mono text-surface-500 dark:text-surface-400">
+            <time datetime={post.data.publishDate.toISOString()}>
+              {new Date(post.data.publishDate).toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </time>
+            <span class="text-surface-300 dark:text-surface-600">•</span>
+            <span>{readingTime} min lectura</span>
+          </div>
         </div>
 
         <h1 class="text-3xl md:text-4xl font-mono font-bold">
