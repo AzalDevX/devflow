@@ -2,9 +2,11 @@
 import Layout from '../../layouts/Layout.astro';
 import BlogCard from '../../components/BlogCard.astro';
 import { getCollection } from 'astro:content';
+import { filterPublishedPosts } from '../../utils/filterPosts';
 
-const posts = await getCollection('blog');
-const sortedPosts = posts
+const allPosts = await getCollection('blog');
+const publishedPosts = filterPublishedPosts(allPosts);
+const sortedPosts = publishedPosts
   .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 ---
 
@@ -17,7 +19,7 @@ const sortedPosts = posts
     </div>
     <h1 class="text-3xl font-mono">Artículos</h1>
     <p class="font-mono italic text-surface-500 dark:text-surface-400">
-      Todos los artículos que he publicado.
+      Todos los artículos publicados.
     </p>
   </div>
 

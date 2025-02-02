@@ -1,10 +1,13 @@
 import { getCollection } from 'astro:content';
+import { filterPublishedPosts } from '../../utils/filterPosts';
 
 export async function GET() {
-  const posts = await getCollection('blog');
+  const allPosts = await getCollection();
+  const publishedPosts = filterPublishedPosts(allPosts);
+
   return new Response(
     JSON.stringify(
-      posts.map((post) => ({
+      publishedPosts.map((post) => ({
         slug: post.slug,
         data: {
           title: post.data.title,
