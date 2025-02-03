@@ -1,9 +1,11 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { filterPublishedPosts } from '../../utils/filterPosts';
 
 const posts = await getCollection('blog');
-const tags = posts.reduce((acc, post) => {
+const publishedPosts = filterPublishedPosts(posts);
+const tags = publishedPosts.reduce((acc, post) => {
   post.data.tags.forEach(tag => {
     acc[tag] = (acc[tag] || 0) + 1;
   });
