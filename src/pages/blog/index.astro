@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import BlogCard from '../../components/BlogCard.astro';
+import ScrollAnimatedBlogCard from '../../components/ScrollAnimatedBlogCard';
 import { getCollection } from 'astro:content';
 import { filterPublishedPosts } from '../../utils/filterPosts';
 import { calculateReadingTime } from '../../utils/readingTime';
@@ -12,29 +12,109 @@ const sortedPosts = publishedPosts
 ---
 
 <Layout title="Blog - DevFlow">
-  <div class="space-y-2 mb-8">
-    <div class="breadcrumb">
-      <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400">Inicio</a>
-      <span class="breadcrumb-separator">></span>
-      <span>Artículos</span>
+  <div class="space-y-2 mb-8 fade-in">
+    <div class="breadcrumb flex items-center gap-2 text-secondary-600 dark:text-accent-400 font-mono">
+      <a href="/" class="hover:text-primary-600 dark:hover:text-accent-300 transition-colors">Inicio</a>
+      <span class="text-secondary-400 dark:text-accent-600">></span>
+      <span class="text-secondary-700 dark:text-accent-300">Artículos</span>
     </div>
-    <h1 class="text-3xl font-mono">Artículos</h1>
-    <p class="font-mono italic text-surface-500 dark:text-surface-400">
+    <h1 class="text-3xl font-mono text-primary-800 dark:text-accent-200">Artículos</h1>
+    <p class="font-mono italic text-secondary-600 dark:text-accent-400">
       Todos los artículos publicados.
     </p>
   </div>
 
-  <div class="space-y-0">
-    {sortedPosts.map((post) => (
-      <BlogCard
-        title={post.data.title}
-        description={post.data.description}
-        publishDate={post.data.publishDate}
-        slug={post.slug}
-        category={post.data.category}
-        readingTime={calculateReadingTime(post.body)}
-      />
+  <div class="space-y-0 bg-accent-50/50 dark:bg-primary-900/30 rounded-2xl p-6 shadow-xl shadow-accent-500/5 dark:shadow-primary-900/5">
+    {sortedPosts.map((post, index) => (
+      <article class="post-card py-8 first:pt-0 border-b border-nature-200 dark:border-primary-700/50 last:border-0 opacity-0">
+        <a 
+          href={`/blog/${post.slug}`} 
+          class="block space-y-4 p-4 -mx-4 rounded-xl transition-colors duration-300
+                 hover:bg-nature-50/50 dark:hover:bg-primary-800/30"
+        >
+          <div class="flex flex-wrap items-center gap-3 text-sm">
+            <span class="px-3 py-1 text-xs font-medium font-mono rounded-full 
+                       bg-primary-100 dark:bg-primary-800/50 
+                       text-primary-700 dark:text-accent-300
+                       transition-colors duration-300">
+              {post.data.category}
+            </span>
+            <div class="flex items-center gap-3 text-secondary-600 dark:text-accent-400 font-mono">
+              <time datetime={post.data.publishDate.toISOString()}>
+                {new Date(post.data.publishDate).toLocaleDateString('es-ES', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </time>
+              <span class="text-secondary-400 dark:text-accent-700">•</span>
+              <span>{calculateReadingTime(post.body)} min lectura</span>
+            </div>
+          </div>
+
+          <h2 class="text-2xl font-bold font-mono text-primary-800 dark:text-accent-100 
+                     transition-colors duration-300">
+            {post.data.title}
+          </h2>
+
+          <p class="text-secondary-700 dark:text-accent-300 leading-relaxed">
+            {post.data.description}
+          </p>
+
+          <div class="inline-flex items-center text-primary-600 dark:text-accent-400 font-medium pt-2">
+            <span class="text-sm font-mono">Leer más</span>
+            <svg 
+              class="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-2" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </div>
+        </a>
+      </article>
     ))}
   </div>
 </Layout>
+
+<style>
+  .fade-in {
+    animation: fadeIn 0.5s ease forwards;
+  }
+
+  .post-card {
+    animation: fadeInUp 0.5s ease forwards;
+    animation-delay: calc(var(--index, 0) * 0.1s);
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  // Set animation delay for each post card
+  document.querySelectorAll('.post-card').forEach((card, index) => {
+    card.style.setProperty('--index', index.toString());
+  });
+</script>
 

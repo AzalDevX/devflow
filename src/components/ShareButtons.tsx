@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Share2, Link2, Twitter, Facebook } from 'lucide-react';
 import { Toast } from './Toast';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ShareButtons() {
   const [copied, setCopied] = useState(false);
@@ -38,19 +39,10 @@ export default function ShareButtons() {
   };
 
   const shareToTwitter = () => {
-    // Get tags from the URL and transform them
-    const hashtags = window.location.pathname
-      .split('/')
-      .filter((segment) => segment === 'tags')[0] // Check if we're in a tag page
-      ? [window.location.pathname.split('/').pop()] // If so, get the current tag
-      : document.querySelectorAll('a[href^="/tags/"]') // Otherwise get all tags from the page
-      ? Array.from(document.querySelectorAll('a[href^="/tags/"]')).map((tag) =>
-          tag.textContent?.replace('#', '').trim()
-        ) // Remove # and trim spaces
-      : [];
-
-    // Transform tags: "proyecto personal" -> "#ProyectoPersonal"
-    const formattedTags = hashtags
+    const hashtags = document.querySelectorAll('a[href^="/tags/"]');
+    const formattedTags = Array.from(hashtags)
+      .map((tag) => tag.textContent?.replace('#', '').trim())
+      .filter(Boolean)
       .map((tag) =>
         tag
           ?.split(' ')
@@ -59,10 +51,13 @@ export default function ShareButtons() {
           )
           .join('')
       )
-      .filter(Boolean) // Remove any undefined/null values
-      .map((tag) => `#${tag.trim()}`); // Add # prefix and ensure no spaces
+      .map((tag) => `#${tag}`);
 
-    const tweetText = `${pageTitle}\n${shareUrl}\n\n${formattedTags.join(' ')}`;
+    const tweetText = `${pageTitle}
+
+${shareUrl}
+
+${formattedTags.join(' ')}`;
 
     const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       tweetText
@@ -84,60 +79,85 @@ export default function ShareButtons() {
       <div className="fixed bottom-8 right-8 z-40 share-menu">
         <div className="relative">
           {/* Botón principal */}
-          <button
+          <motion.button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="p-4 bg-surface-900 dark:bg-white text-white dark:text-surface-900 
-                     rounded-full shadow-lg hover:shadow-xl transition-all duration-300
-                     hover:scale-110 hover:rotate-12"
+            className="p-4 bg-primary-500 dark:bg-accent-500 text-white dark:text-surface-900 
+                     rounded-full shadow-lg hover:shadow-xl"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            animate={{
+              rotate: isMenuOpen ? 45 : 0,
+              backgroundColor: isMenuOpen
+                ? 'rgb(191, 237, 193)'
+                : 'rgb(152, 95, 153)',
+            }}
+            transition={{
+              type: 'spring',
+              stiffness: 260,
+              damping: 20,
+            }}
             aria-label="Compartir">
             <Share2 className="w-5 h-5" />
-          </button>
+          </motion.button>
 
           {/* Menú flotante */}
-          <div
-            className={`absolute bottom-full right-0 mb-2 transition-all duration-300 transform
-                        min-w-[160px] ${
-                          isMenuOpen
-                            ? 'opacity-100 visible translate-y-0'
-                            : 'opacity-0 invisible translate-y-2'
-                        }`}>
-            <div
-              className="bg-white dark:bg-surface-900 rounded-lg shadow-xl p-2 flex flex-col gap-2
-                          border border-surface-200 dark:border-surface-700">
-              {/* Copiar enlace */}
-              <button
-                onClick={handleCopy}
-                className="flex items-center gap-3 px-4 py-3 text-sm rounded-md
-                         hover:bg-surface-100 dark:hover:bg-surface-800
-                         text-surface-900 dark:text-white
-                         transition-colors duration-200 font-mono">
-                <Link2 className="w-4 h-4" />
-                <span className="whitespace-nowrap">Copiar enlace</span>
-              </button>
+          <AnimatePresence>
+            {isMenuOpen && (
+              <motion.div
+                className="absolute bottom-full right-0 mb-2 min-w-[160px]"
+                initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.8, y: 10 }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 300,
+                  damping: 20,
+                }}>
+                <div
+                  className="bg-white dark:bg-surface-900 rounded-lg shadow-xl p-2 flex flex-col gap-2
+                              border border-primary-100 dark:border-surface-700">
+                  {/* Copiar enlace */}
+                  <motion.button
+                    onClick={handleCopy}
+                    className="flex items-center gap-3 px-4 py-3 text-sm rounded-md
+                             text-primary-700 dark:text-accent-300
+                             hover:bg-primary-50 dark:hover:bg-surface-800
+                             transition-colors duration-200 font-mono"
+                    whileHover={{ x: 5 }}
+                    whileTap={{ scale: 0.95 }}>
+                    <Link2 className="w-4 h-4" />
+                    <span className="whitespace-nowrap">Copiar enlace</span>
+                  </motion.button>
 
-              {/* Twitter */}
-              <button
-                onClick={shareToTwitter}
-                className="flex items-center gap-3 px-4 py-3 text-sm rounded-md
-                         hover:bg-surface-100 dark:hover:bg-surface-800
-                         text-surface-900 dark:text-white
-                         transition-colors duration-200 font-mono">
-                <Twitter className="w-4 h-4" />
-                <span>Twitter</span>
-              </button>
+                  {/* Twitter */}
+                  <motion.button
+                    onClick={shareToTwitter}
+                    className="flex items-center gap-3 px-4 py-3 text-sm rounded-md
+                             text-primary-700 dark:text-accent-300
+                             hover:bg-primary-50 dark:hover:bg-surface-800
+                             transition-colors duration-200 font-mono"
+                    whileHover={{ x: 5 }}
+                    whileTap={{ scale: 0.95 }}>
+                    <Twitter className="w-4 h-4" />
+                    <span>Twitter</span>
+                  </motion.button>
 
-              {/* Facebook */}
-              <button
-                onClick={shareToFacebook}
-                className="flex items-center gap-3 px-4 py-3 text-sm rounded-md
-                         hover:bg-surface-100 dark:hover:bg-surface-800
-                         text-surface-900 dark:text-white
-                         transition-colors duration-200 font-mono">
-                <Facebook className="w-4 h-4" />
-                <span>Facebook</span>
-              </button>
-            </div>
-          </div>
+                  {/* Facebook */}
+                  <motion.button
+                    onClick={shareToFacebook}
+                    className="flex items-center gap-3 px-4 py-3 text-sm rounded-md
+                             text-primary-700 dark:text-accent-300
+                             hover:bg-primary-50 dark:hover:bg-surface-800
+                             transition-colors duration-200 font-mono"
+                    whileHover={{ x: 5 }}
+                    whileTap={{ scale: 0.95 }}>
+                    <Facebook className="w-4 h-4" />
+                    <span>Facebook</span>
+                  </motion.button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 

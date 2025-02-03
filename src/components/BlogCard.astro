@@ -16,52 +16,113 @@ const formattedDate = new Date(publishDate).toLocaleDateString('es-ES', {
 });
 ---
 
-<article class="group py-8 first:pt-0 border-b border-surface-200 dark:border-surface-700/50 last:border-0">
-  <a 
-    href={`/blog/${slug}`} 
-    class="block space-y-4 transition-all duration-300 hover:-translate-y-1"
-  >
-    <div class="flex flex-wrap items-center gap-3 text-sm">
-      <span 
-        class="px-3 py-1 text-xs font-medium font-mono rounded-full bg-surface-100/50 
-               dark:bg-surface-800/50 text-surface-900 dark:text-surface-300
-               transition-colors duration-300 group-hover:bg-surface-200/50 
-               dark:group-hover:bg-surface-700/50"
-      >
-        {category}
-      </span>
-      <div class="flex items-center gap-3 text-surface-500 dark:text-surface-400 font-mono">
-        <time datetime={publishDate.toISOString()}>
-          {formattedDate}
-        </time>
-        <span class="text-surface-300 dark:text-surface-600">•</span>
-        <span>{readingTime} min lectura</span>
+<article class="group">
+  <a href={`/blog/${slug}`} class="block">
+    {/* Card Container */}
+    <div class="relative grid grid-cols-[1fr,auto] gap-6 md:gap-8">
+      {/* Content Side */}
+      <div class="relative">
+        {/* Category Badge */}
+        <div class="inline-flex mb-4 relative">
+          <div class="absolute inset-0 bg-primary-200 dark:bg-primary-800/50 blur-md"></div>
+          <span 
+            class="relative px-3 py-1 text-xs font-medium font-mono rounded-full 
+                   bg-primary-100 dark:bg-primary-800/80
+                   text-primary-700 dark:text-accent-300"
+          >
+            {category}
+          </span>
+        </div>
+
+        {/* Title with animated background */}
+        <div class="relative mb-3 w-fit">
+          <h2 
+            class="text-2xl md:text-3xl font-bold font-mono text-primary-800 dark:text-accent-100 
+                   leading-tight relative z-10"
+          >
+            {title}
+          </h2>
+          <div class="absolute inset-0 bg-accent-200/0 dark:bg-accent-500/0 
+                      group-hover:bg-accent-200/20 dark:group-hover:bg-accent-500/20
+                      -inset-x-2 -inset-y-1 rounded-lg blur-sm transition-all duration-500
+                      scale-75 group-hover:scale-100 origin-left"></div>
+        </div>
+
+        {/* Description with gradient mask */}
+        <p class="text-secondary-700 dark:text-accent-300 leading-relaxed mb-4
+                  line-clamp-2 relative">
+          {description}
+          <span class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-white/90 
+                       dark:to-primary-900/90 group-hover:opacity-0 transition-opacity duration-500"></span>
+        </p>
+
+        {/* Meta info with hover effect */}
+        <div class="flex items-center gap-4 text-sm text-secondary-600 dark:text-accent-400 font-mono">
+          <time 
+            datetime={publishDate.toISOString()}
+            class="relative after:absolute after:bottom-0 after:left-0 after:w-0 
+                   after:h-px after:bg-current after:transition-all after:duration-300
+                   group-hover:after:w-full"
+          >
+            {formattedDate}
+          </time>
+          <span class="w-1.5 h-1.5 rounded-full bg-current opacity-40"></span>
+          <span class="relative after:absolute after:bottom-0 after:left-0 after:w-0 
+                       after:h-px after:bg-current after:transition-all after:duration-300
+                       group-hover:after:w-full">
+            {readingTime} min lectura
+          </span>
+        </div>
       </div>
-    </div>
 
-    <h2 
-      class="text-2xl font-bold font-mono text-surface-900 dark:text-surface-50 
-             group-hover:text-surface-600 dark:group-hover:text-surface-400 
-             transition-colors duration-300"
-    >
-      {title}
-    </h2>
+      {/* Decorative Side */}
+      <div class="relative w-24 md:w-32">
+        {/* Animated shapes */}
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-gradient-to-br 
+                      from-primary-200 to-accent-200 dark:from-primary-800 dark:to-accent-800
+                      group-hover:rotate-45 transition-transform duration-500 origin-center"></div>
+          <div class="absolute w-16 h-16 md:w-20 md:h-20 rounded-full border-2 
+                      border-primary-300 dark:border-primary-700
+                      group-hover:-rotate-45 transition-transform duration-500 origin-center"></div>
+          <div class="absolute w-8 h-8 md:w-10 md:h-10 rounded-lg bg-accent-200 
+                      dark:bg-accent-800 group-hover:scale-150 transition-transform 
+                      duration-500 origin-center"></div>
+        </div>
+      </div>
 
-    <p class="text-surface-600 dark:text-surface-300 leading-relaxed">
-      {description}
-    </p>
-
-    <div class="inline-flex items-center text-surface-600 dark:text-surface-400 font-medium pt-2">
-      <span class="text-sm font-mono">Leer más</span>
-      <svg 
-        class="w-4 h-4 ml-2 transform transition-transform duration-300 group-hover:translate-x-2" 
-        fill="none" 
-        viewBox="0 0 24 24" 
-        stroke="currentColor"
-      >
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-      </svg>
+      {/* Hover line effect */}
+      <div class="absolute -bottom-6 left-0 right-0 h-px bg-gradient-to-r 
+                  from-transparent via-primary-300 dark:via-primary-700 to-transparent 
+                  scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
     </div>
   </a>
 </article>
+
+<style>
+  article {
+    container-type: inline-size;
+  }
+
+  @container (max-width: 768px) {
+    article .decorative-side {
+      display: none;
+    }
+  }
+
+  /* Smooth animation for shape rotation */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) rotate(0);
+    }
+    50% {
+      transform: translateY(-5px) rotate(5deg);
+    }
+  }
+
+  /* Ensure smooth transitions */
+  article * {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+</style>
 

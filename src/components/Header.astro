@@ -5,16 +5,24 @@ import MobileMenu from './MobileMenu';
 import ClientMobileMenuWrapper from './ClientMobileMenuWrapper';
 ---
 
-<header class="fixed top-0 left-0 right-0 z-40 bg-white/80 dark:bg-surface-900/80 backdrop-blur-md">
+<header class="fixed top-0 left-0 right-0 z-[99] bg-accent-100/80 dark:bg-primary-900/80 backdrop-blur-md">
   <div class="container mx-auto px-4">
     <nav class="flex items-center justify-between h-20">
-      <a href="/" class="text-2xl font-mono">DevFlow</a>
+      <a href="/" class="text-2xl font-mono text-primary-800 dark:text-accent-200 hover:text-primary-600 dark:hover:text-accent-300 transition-colors">
+        DevFlow
+      </a>
       
       <!-- Menú Desktop -->
       <div class="hidden md:flex items-center gap-8">
-        <a href="/blog" class="hover:text-blue-600 dark:hover:text-blue-400">Artículos</a>
-        <a href="/tags" class="hover:text-blue-600 dark:hover:text-blue-400">Etiquetas</a>
-        <a href="https://lalo.lol/in" class="hover:text-blue-600 dark:hover:text-blue-400">Currículum</a>
+        <a href="/blog" class="text-primary-700 dark:text-accent-300 hover:text-primary-500 dark:hover:text-accent-200 transition-colors">
+          Artículos
+        </a>
+        <a href="/tags" class="text-primary-700 dark:text-accent-300 hover:text-primary-500 dark:hover:text-accent-200 transition-colors">
+          Etiquetas
+        </a>
+        <a href="https://lalo.lol/in" target="_blank" class="text-primary-700 dark:text-accent-300 hover:text-primary-500 dark:hover:text-accent-200 transition-colors">
+          Currículum
+        </a>
         <SearchModal client:load />
         <ThemeToggle client:load />
       </div>

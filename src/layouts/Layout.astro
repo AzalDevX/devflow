@@ -1,5 +1,6 @@
 ---
 import Header from '../components/Header.astro';
+import CustomCursor from '../components/CustomCursor';
 import '../styles/global.css';
 
 interface Props {
@@ -21,7 +22,6 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <style is:inline>
-      /* Pre-renderizar ambos iconos pero ocultar uno basado en el tema */
       .theme-toggle .sun { display: none; }
       .theme-toggle .moon { display: block; }
       
@@ -39,13 +39,15 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
   </head>
-  <body>
+  <body class="min-h-screen bg-gradient-to-br from-accent-50 via-nature-100 to-accent-100
+               dark:from-primary-950 dark:via-primary-900 dark:to-primary-800">
     <div class="max-w-3xl mx-auto px-4 py-16">
       <Header />
-      <main class="md:mt-16">
+      <main class="mt-16">
         <slot />
       </main>
     </div>
+    <CustomCursor client:load />
   </body>
 </html>
 

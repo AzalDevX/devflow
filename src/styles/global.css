@@ -4,16 +4,77 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Cursor Styles */
+:root {
+  cursor: none; /* Hide the default cursor */
+}
+/* Hide cursor ponter on hover */
+a,
+button {
+  cursor: none;
+}
+
+input[type='text']{
+  cursor: none;
+}
+
+.custom-cursor {
+  width: 20px;
+  height: 20px;
+  background: rgba(152, 95, 153, 0.3); /* primary-500 with opacity */
+  border: 2px solid #985f99; /* primary-500 */
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease;
+}
+
+.custom-cursor.hover {
+  transform: scale(1.5);
+  background: rgba(191, 237, 193, 0.3); /* accent-500 with opacity */
+  border-color: #bfedc1; /* accent-500 */
+}
+
+/* Only show custom cursor on devices with hover capability */
+@media (hover: none) {
+  :root {
+    cursor: auto;
+  }
+  .custom-cursor {
+    display: none;
+  }
+}
+
+.dark .custom-cursor {
+  background: rgba(
+    191,
+    237,
+    193,
+    0.2
+  ); /* accent-500 with opacity for dark mode */
+  border-color: #bfedc1; /* accent-500 */
+}
+
+.dark .custom-cursor.hover {
+  background: rgba(152, 95, 153, 0.3); /* primary-500 with opacity */
+  border-color: #985f99; /* primary-500 */
+}
+
 @layer base {
   body {
-    @apply bg-white dark:bg-surface-950 text-surface-900 dark:text-white font-sans;
+    @apply bg-accent-100 dark:bg-primary-900 text-primary-800 dark:text-accent-200;
+  }
+
+  ::selection {
+    @apply bg-primary-200 dark:bg-primary-700 text-primary-900 dark:text-accent-100;
   }
 }
 
 @layer components {
   /* Estilos base para el contenido MDX */
   .prose {
-    @apply max-w-none text-surface-900 dark:text-white;
+    @apply max-w-none text-primary-800 dark:text-accent-200;
   }
 
   .prose h1,
@@ -22,7 +83,7 @@
   .prose h4,
   .prose h5,
   .prose h6 {
-    @apply font-mono text-surface-900 dark:text-white scroll-mt-20;
+    @apply font-mono text-primary-900 dark:text-accent-100 scroll-mt-20;
   }
 
   .prose h1 {
@@ -38,15 +99,17 @@
   }
 
   .prose p {
-    @apply mb-6 leading-relaxed;
+    @apply mb-6 leading-relaxed text-primary-800 dark:text-accent-200;
   }
 
   .prose strong {
-    @apply font-mono font-semibold text-surface-900 dark:text-white;
+    @apply font-mono font-semibold text-primary-900 dark:text-accent-100;
   }
 
   .prose a {
-    @apply font-mono text-blue-600 dark:text-blue-400 no-underline border-b border-blue-600/30 dark:border-blue-400/30 hover:border-blue-600 dark:hover:border-blue-400 transition-colors;
+    @apply font-mono text-primary-600 dark:text-accent-400 no-underline border-b 
+           border-primary-600/30 dark:border-accent-400/30 
+           hover:border-primary-600 dark:hover:border-accent-400 transition-colors;
   }
 
   .prose ul {
@@ -58,7 +121,8 @@
   }
 
   .prose ul li::before {
-    @apply content-[''] absolute w-1.5 h-1.5 bg-surface-900/60 dark:bg-white/60 rounded-full left-[-1rem] top-[0.6rem];
+    @apply content-[''] absolute w-1.5 h-1.5 bg-primary-400 dark:bg-accent-400 
+           rounded-full left-[-1rem] top-[0.6rem];
   }
 
   .prose ol {
@@ -72,27 +136,32 @@
 
   .prose ol li::before {
     content: counter(item) '.';
-    @apply absolute left-[-1.5rem] top-0 font-mono text-sm text-surface-600 dark:text-surface-400;
+    @apply absolute left-[-1.5rem] top-0 font-mono text-sm 
+           text-primary-600 dark:text-accent-300;
   }
 
   .prose blockquote {
-    @apply border-l-2 border-surface-900/20 dark:border-white/20 pl-4 my-6 font-mono text-surface-600 dark:text-surface-300 italic;
+    @apply border-l-2 border-primary-300 dark:border-accent-700 pl-4 my-6 
+           font-mono text-primary-600 dark:text-accent-300 italic;
   }
 
   .prose code:not(pre code) {
-    @apply font-mono text-sm px-1.5 py-0.5 rounded bg-surface-100 dark:bg-surface-800 text-surface-900 dark:text-white;
+    @apply font-mono text-sm px-1.5 py-0.5 rounded 
+           bg-nature-100 dark:bg-primary-800 
+           text-primary-900 dark:text-accent-100;
   }
 
   .prose pre {
-    @apply p-4 rounded-lg bg-surface-100 dark:bg-surface-800 overflow-x-auto font-mono text-sm my-6;
+    @apply p-4 rounded-lg bg-nature-100 dark:bg-primary-800 
+           overflow-x-auto font-mono text-sm my-6;
   }
 
   .prose img {
-    @apply rounded-lg my-8 border border-surface-200 dark:border-surface-800;
+    @apply rounded-lg my-8 border border-nature-200 dark:border-primary-700;
   }
 
   .prose hr {
-    @apply my-12 border-surface-200 dark:border-surface-800;
+    @apply my-12 border-nature-200 dark:border-primary-700;
   }
 
   .prose table {
@@ -100,40 +169,23 @@
   }
 
   .prose table th {
-    @apply font-mono text-sm text-left p-2 bg-surface-100 dark:bg-surface-800 border border-surface-200 dark:border-surface-700;
+    @apply font-mono text-sm text-left p-2 
+           bg-nature-100 dark:bg-primary-800 
+           border border-nature-200 dark:border-primary-700;
   }
 
   .prose table td {
-    @apply p-2 border border-surface-200 dark:border-surface-700;
-  }
-
-  /* Estilos para bloques de código con resaltado de sintaxis */
-  .prose pre code {
-    @apply text-sm font-mono;
-  }
-
-  /* Ajustes para elementos interactivos dentro del MDX */
-  .prose details {
-    @apply my-4;
-  }
-
-  .prose summary {
-    @apply font-mono cursor-pointer;
+    @apply p-2 border border-nature-200 dark:border-primary-700;
   }
 
   /* Estilos para notas y advertencias */
   .prose .note {
-    @apply p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 my-6;
+    @apply p-4 rounded-lg bg-accent-100 dark:bg-primary-800/50 
+           border border-accent-200 dark:border-primary-700 my-6;
   }
 
   .prose .warning {
-    @apply p-4 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 my-6;
-  }
-}
-
-/* Estilos personalizados para listas ordenadas */
-@layer utilities {
-  .prose ol {
-    counter-reset: item;
+    @apply p-4 rounded-lg bg-secondary-100 dark:bg-secondary-900/20 
+           border border-secondary-200 dark:border-secondary-800 my-6;
   }
 }
