@@ -1,27 +1,23 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import TagPosts from '../../components/TagPosts';
 import { getCollection } from 'astro:content';
-import { filterPublishedPosts } from '../../utils/filterPosts';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-  const publishedPosts = filterPublishedPosts(posts);
-  const tags = [...new Set(publishedPosts.flatMap(post => post.data.tags))];
+  const tags = [...new Set(posts.flatMap(post => post.data.tags))];
 
   return tags.map(tag => ({
     params: { tag },
     props: {
-      posts: publishedPosts.filter(post => post.data.tags.includes(tag))
+      posts: posts.filter(post => post.data.tags.includes(tag)),
+      tag
     }
   }));
 }
 
 const { tag } = Astro.params;
 const { posts } = Astro.props;
-
-const sortedPosts = posts.sort((a, b) => 
-  b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
-);
 ---
 
 <Layout title={`Artículos etiquetados "${tag}" - DevFlow`}>
@@ -39,46 +35,6 @@ const sortedPosts = posts.sort((a, b) =>
     </p>
   </div>
 
-  <div class="space-y-8 bg-accent-50/50 dark:bg-primary-900/30 rounded-2xl p-6 shadow-xl shadow-accent-500/5 dark:shadow-primary-900/5">
-    {sortedPosts.map((post) => (
-      <article class="group border-b border-nature-200 dark:border-primary-700/50 last:border-0 pb-8 last:pb-0">
-        <a 
-          href={`/blog/${post.slug}`}
-          class="block space-y-3 transition-all duration-300 hover:-translate-y-1 hover:bg-nature-50/50 dark:hover:bg-primary-800/30 p-4 rounded-xl -mx-4"
-        >
-          <time 
-            datetime={post.data.publishDate.toISOString()}
-            class="block text-secondary-600 dark:text-accent-400 font-mono"
-          >
-            {new Date(post.data.publishDate).toLocaleDateString('es-ES', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })}
-          </time>
-          
-          <h2 class="text-xl font-mono text-primary-800 dark:text-accent-200 group-hover:text-primary-600 dark:group-hover:text-accent-300">
-            {post.data.title}
-          </h2>
-          
-          <p class="text-secondary-700 dark:text-accent-300">
-            {post.data.description}
-          </p>
-
-          <div class="inline-flex items-center text-primary-600 dark:text-accent-400 font-medium pt-2">
-            <span class="text-sm font-mono">Leer más</span>
-            <svg 
-              class="w-4 h-4 ml-2 transform transition-transform duration-300 group-hover:translate-x-2" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </div>
-        </a>
-      </article>
-    ))}
-  </div>
+  <TagPosts client:load initialPosts={posts} tag={tag} />
 </Layout>
 
