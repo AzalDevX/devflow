@@ -18,7 +18,7 @@ DevFlow es un blog moderno, rápido y minimalista construido con Astro y React. 
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/yourusername/devflow.git
+git clone https://github.com/AzalDevX/devflow.git
 
 # Navegar al directorio del proyecto
 cd devflow
