@@ -21,6 +21,10 @@ async function getMDXPosts() {
             title: data.title,
             description: data.description,
             publishDate: data.publishDate,
+            image: data.image,
+            category: data.category,
+            tags: data.tags,
+            draft: data.draft ?? false,
           },
         };
       })
@@ -37,7 +41,23 @@ export async function GET() {
   const allPosts = await getMDXPosts();
   const publishedPosts = filterPublishedPosts(allPosts);
 
-  return new Response(JSON.stringify(publishedPosts), {
+  // Ordenar todos por fecha descendente
+  const sortedPosts = publishedPosts.sort(
+    (a, b) =>
+      new Date(b.data.publishDate).getTime() -
+      new Date(a.data.publishDate).getTime()
+  );
+
+  // Tomar los últimos 3
+  const latestPosts = sortedPosts.slice(0, 3);
+
+  // Devolver ambos
+  const response = {
+    allPosts: sortedPosts,
+    latestPosts,
+  };
+
+  return new Response(JSON.stringify(response), {
     headers: {
       'Content-Type': 'application/json',
     },
