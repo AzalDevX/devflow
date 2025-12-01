@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro build && npm run trigger-portfolio",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "trigger-portfolio": "curl -X POST $PORTFOLIO_DEPLOY_HOOK"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.0",
